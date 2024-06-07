@@ -16,3 +16,6 @@ npm run storybook
 
 4. https://github.com/akerl/githubstats
 5. https://rubygems.org/gems/githubstats/versions/4.0.1
+
+
+Maybe I need to create separate libraries for getting the contribution stats and creating calendar just like how above gems are implemented... Trying with Next.js...
