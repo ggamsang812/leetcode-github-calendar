@@ -1,44 +1,36 @@
 // GitHubCalendar.tsx
+// "use client"
 
-import React, { useEffect, useState } from "react";
 import "./GitHubCalendar.css";
 import { GitHubCalendarProps } from "./GitHubCalendar.types";
-import { fetchGitHubData } from "./fetchGitHubData";
-import parseContributions from "./parseContributions";
+// import { fetchGitHubData } from "./fetchGitHubData";
+// import parseContributions from "./parseContributions";
 
-interface Contribution {
-  date: string;
-  level: string;
-}
 
 const GitHubCalendar: React.FC<GitHubCalendarProps> = (props) => {
-  const [contributions, setContributions] = useState<Contribution[] | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const loadContributions = async () => {
-      try {
-        const html = await fetchGitHubData(props.userName);
-        const parsedData = parseContributions(html);
-        setContributions(parsedData);
-      } catch (error) {
-        setError((error as Error).message);
-      } finally {
-        setLoading(false);
+  const fetchGitHubData = async (userName: string): Promise<string> => {
+    const baseUrl = `https://github.com/users/${userName}/contributions`;
+    
+    try {
+      const response = await fetch(baseUrl);
+      if (!response.ok) {
+        throw new Error(`Failed loading data from GitHub: ${response.status}`);
       }
-    };
+      const html = await response.text();
+      return html;
+    } catch (error) {
+      console.error("fetchGitHubData : "+error);
+      throw error;
+    }
+  };
 
-    loadContributions();
-  }, [props.userName]);
+  const asdf = fetchGitHubData(props.userName)
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
+  console.log(asdf)
 
   return (
     <div>
       <h2>Contributions for {props.userName}</h2>
-      <pre>{JSON.stringify(contributions, null, 2)}</pre>
     </div>
   );
 };
