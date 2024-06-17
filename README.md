@@ -1,3 +1,5 @@
+# This project is now replaced with [github-leetcode-component](https://github.com/ggamsang812/github-leetcode-component)
+
 ## React Component Library 
 1. LeetCode Submission Calendar 
 2. GitHub Contribution Calendar
